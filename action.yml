@@ -1,0 +1,19 @@
+name: SQFC
+description: Compiles SQF to SQFC
+inputs:
+  directory:
+    description: 'Directory containing sqfc.json'
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Compile SQF
+      run: |
+        if ($IsWindows) {
+          $binary = Join-Path -Path "${{ github.action_path }}" -ChildPath "windows\ArmaScriptCompiler.exe"
+          & "$binary"
+        } else {
+            throw "Unsupported OS"
+        }
+      shell: pwsh
+      working-directory: ${{ inputs.directory }}
